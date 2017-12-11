@@ -1,0 +1,37 @@
+About
+=====
+
+Oh-my-zsh rustup completion plugin.
+Rustup version: 1.7.0
+
+Installation
+============
+
+* Clone repo:
+
+$ cd ~/.oh-my-zsh/custom/plugins
+$ git clone https://github.com/pkulev/zsh-rustup-completion.git rustup
+
+* Open ~/.zshrc, add plugin to plugins and check that autoloading enabled:
+
+$ vim ~/.zshrc
+...
+plugins=(... rustup)
+autoload -U compinit && compinit
+...
+
+* Reload config:
+$ source ~/.zshrc
+
+* Enjoy!
+
+
+Updating
+========
+
+Completion file depends on rustup version.
+For updating completion just execute:
+
+$ ./gen-completion.sh
+
+Attention! Executing this file may cause repo updating failure.
