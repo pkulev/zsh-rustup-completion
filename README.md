@@ -34,7 +34,7 @@ Reload config:
 source ~/.zshrc
 ```
 
-Enjoy it !
+Enjoy it!
 
 ## Updating
 
