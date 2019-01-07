@@ -36,7 +36,34 @@ _arguments "${_arguments_options[@]}" \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
 '--version[Prints version information]' \
+":: :_rustup__show_commands" \
+"*::: :->show" \
 && ret=0
+case $state in
+    (show)
+        words=($line[1] "${words[@]}")
+        (( CURRENT += 1 ))
+        curcontext="${curcontext%:*:*}:rustup-show-command-$line[1]:"
+        case $line[1] in
+            (active-toolchain)
+_arguments "${_arguments_options[@]}" \
+'-h[Prints help information]' \
+'--help[Prints help information]' \
+'-V[Prints version information]' \
+'--version[Prints version information]' \
+&& ret=0
+;;
+(help)
+_arguments "${_arguments_options[@]}" \
+'-h[Prints help information]' \
+'--help[Prints help information]' \
+'-V[Prints version information]' \
+'--version[Prints version information]' \
+&& ret=0
+;;
+        esac
+    ;;
+esac
 ;;
 (install)
 _arguments "${_arguments_options[@]}" \
@@ -395,8 +422,11 @@ _arguments "${_arguments_options[@]}" \
 ;;
 (docs)
 _arguments "${_arguments_options[@]}" \
+'--toolchain=[Toolchain name, such as '\''stable'\'', '\''nightly'\'', or '\''1.8.0'\''. For more information see `rustup help toolchain`]' \
+'--path[Only print the path to the documentation]' \
 '--book[The Rust Programming Language book]' \
 '--std[Standard library API documentation]' \
+'--reference[The Rust Reference]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -405,8 +435,11 @@ _arguments "${_arguments_options[@]}" \
 ;;
 (doc)
 _arguments "${_arguments_options[@]}" \
+'--toolchain=[Toolchain name, such as '\''stable'\'', '\''nightly'\'', or '\''1.8.0'\''. For more information see `rustup help toolchain`]' \
+'--path[Only print the path to the documentation]' \
 '--book[The Rust Programming Language book]' \
 '--std[Standard library API documentation]' \
+'--reference[The Rust Reference]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -568,7 +601,7 @@ _arguments "${_arguments_options[@]}" \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
 '--version[Prints version information]' \
-'::shell:(zsh bash fish powershell)' \
+'::shell:(zsh bash fish powershell elvish)' \
 && ret=0
 ;;
 (help)
@@ -607,6 +640,13 @@ _rustup_commands() {
 "help:Prints this message or the help of the given subcommand(s)" \
     )
     _describe -t commands 'rustup commands' commands "$@"
+}
+(( $+functions[_rustup__show__active-toolchain_commands] )) ||
+_rustup__show__active-toolchain_commands() {
+    local commands; commands=(
+        
+    )
+    _describe -t commands 'rustup show active-toolchain commands' commands "$@"
 }
 (( $+functions[_rustup__add_commands] )) ||
 _rustup__add_commands() {
@@ -750,6 +790,13 @@ _rustup__set__help_commands() {
         
     )
     _describe -t commands 'rustup set help commands' commands "$@"
+}
+(( $+functions[_rustup__show__help_commands] )) ||
+_rustup__show__help_commands() {
+    local commands; commands=(
+        
+    )
+    _describe -t commands 'rustup show help commands' commands "$@"
 }
 (( $+functions[_rustup__target__help_commands] )) ||
 _rustup__target__help_commands() {
@@ -915,7 +962,8 @@ _rustup__set_commands() {
 (( $+functions[_rustup__show_commands] )) ||
 _rustup__show_commands() {
     local commands; commands=(
-        
+        "active-toolchain:Show the active toolchain" \
+"help:Prints this message or the help of the given subcommand(s)" \
     )
     _describe -t commands 'rustup show commands' commands "$@"
 }

@@ -2,7 +2,7 @@
 
 Oh-my-zsh rustup completion plugin.
 
-Rustup version: **1.11.0** (e751ff9f8 2018-02-13)
+Rustup version: **1.16.0** (beab5ac2b 2018-12-06)
 
 ## Installation
 
