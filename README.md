@@ -1,10 +1,11 @@
-# zsh-rustup-completion
+zsh-rustup-completion
+---------------------
 
 Oh-my-zsh rustup completion plugin.
 
 Rustup version: **1.16.0** (beab5ac2b 2018-12-06)
 
-## Installation
+## Installation
 
 First clone the repository repo in the custom zsh plugins folder:
 
@@ -36,7 +37,7 @@ source ~/.zshrc
 
 Enjoy it!
 
-## Updating
+## Updating
 
 Completion file depends on rustup version.
 For updating completion just execute:
