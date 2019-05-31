@@ -30,7 +30,15 @@ _rustup() {
         (( CURRENT += 1 ))
         curcontext="${curcontext%:*:*}:rustup-command-$line[1]:"
         case $line[1] in
-            (show)
+            (dump-testament)
+_arguments "${_arguments_options[@]}" \
+'-h[Prints help information]' \
+'--help[Prints help information]' \
+'-V[Prints version information]' \
+'--version[Prints version information]' \
+&& ret=0
+;;
+(show)
 _arguments "${_arguments_options[@]}" \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
@@ -67,6 +75,8 @@ esac
 ;;
 (install)
 _arguments "${_arguments_options[@]}" \
+'--no-self-update[Don'\''t perform self-update when running the `rustup install` command]' \
+'--force[Force an update, even if some components are missing]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -85,7 +95,7 @@ _arguments "${_arguments_options[@]}" \
 ;;
 (update)
 _arguments "${_arguments_options[@]}" \
-'--no-self-update[Don'\''t perform self update when running the `rustup` command]' \
+'--no-self-update[Don'\''t perform self update when running the `rustup update` command]' \
 '--force[Force an update, even if some components are missing]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
@@ -100,7 +110,7 @@ _arguments "${_arguments_options[@]}" \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
 '--version[Prints version information]' \
-':toolchain -- Toolchain name, such as 'stable', 'nightly', or '1.8.0'. For more information see `rustup help toolchain`:_files' \
+'::toolchain -- Toolchain name, such as 'stable', 'nightly', or '1.8.0'. For more information see `rustup help toolchain`:_files' \
 && ret=0
 ;;
 (toolchain)
@@ -128,6 +138,7 @@ _arguments "${_arguments_options[@]}" \
 ;;
 (update)
 _arguments "${_arguments_options[@]}" \
+'--no-self-update[Don'\''t perform self update when running the `rustup toolchain install` command]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -137,6 +148,7 @@ _arguments "${_arguments_options[@]}" \
 ;;
 (add)
 _arguments "${_arguments_options[@]}" \
+'--no-self-update[Don'\''t perform self update when running the `rustup toolchain install` command]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -146,6 +158,7 @@ _arguments "${_arguments_options[@]}" \
 ;;
 (install)
 _arguments "${_arguments_options[@]}" \
+'--no-self-update[Don'\''t perform self update when running the `rustup toolchain install` command]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -211,6 +224,7 @@ case $state in
             (list)
 _arguments "${_arguments_options[@]}" \
 '--toolchain=[Toolchain name, such as '\''stable'\'', '\''nightly'\'', or '\''1.8.0'\''. For more information see `rustup help toolchain`]' \
+'--installed[List only installed targets]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -287,6 +301,7 @@ case $state in
             (list)
 _arguments "${_arguments_options[@]}" \
 '--toolchain=[Toolchain name, such as '\''stable'\'', '\''nightly'\'', or '\''1.8.0'\''. For more information see `rustup help toolchain`]' \
+'--installed[List only installed components]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -352,6 +367,7 @@ _arguments "${_arguments_options[@]}" \
 ;;
 (add)
 _arguments "${_arguments_options[@]}" \
+'--path=[Path to the directory]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -361,6 +377,7 @@ _arguments "${_arguments_options[@]}" \
 ;;
 (set)
 _arguments "${_arguments_options[@]}" \
+'--path=[Path to the directory]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -424,9 +441,21 @@ _arguments "${_arguments_options[@]}" \
 _arguments "${_arguments_options[@]}" \
 '--toolchain=[Toolchain name, such as '\''stable'\'', '\''nightly'\'', or '\''1.8.0'\''. For more information see `rustup help toolchain`]' \
 '--path[Only print the path to the documentation]' \
+'--alloc[The Rust core allocation and collections library]' \
 '--book[The Rust Programming Language book]' \
-'--std[Standard library API documentation]' \
+'--cargo[The Cargo Book]' \
+'--core[The Rust Core Library]' \
+'--edition-guide[The Rust Edition Guide]' \
+'--nomicon[The Dark Arts of Advanced and Unsafe Rust Programming]' \
+'--proc_macro[A support library for macro authors when defining new macros]' \
 '--reference[The Rust Reference]' \
+'--rust-by-example[A collection of runnable examples that illustrate various Rust concepts and standard libraries]' \
+'--rustc[The compiler for the Rust programming language]' \
+'--rustdoc[Generate documentation for Rust projects]' \
+'--std[Standard library API documentation]' \
+'--test[Support code for rustc'\''s built in unit-test and micro-benchmarking framework]' \
+'--unstable-book[The Unstable Book]' \
+'--embedded-book[The Embedded Rust Book]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -437,9 +466,21 @@ _arguments "${_arguments_options[@]}" \
 _arguments "${_arguments_options[@]}" \
 '--toolchain=[Toolchain name, such as '\''stable'\'', '\''nightly'\'', or '\''1.8.0'\''. For more information see `rustup help toolchain`]' \
 '--path[Only print the path to the documentation]' \
+'--alloc[The Rust core allocation and collections library]' \
 '--book[The Rust Programming Language book]' \
-'--std[Standard library API documentation]' \
+'--cargo[The Cargo Book]' \
+'--core[The Rust Core Library]' \
+'--edition-guide[The Rust Edition Guide]' \
+'--nomicon[The Dark Arts of Advanced and Unsafe Rust Programming]' \
+'--proc_macro[A support library for macro authors when defining new macros]' \
 '--reference[The Rust Reference]' \
+'--rust-by-example[A collection of runnable examples that illustrate various Rust concepts and standard libraries]' \
+'--rustc[The compiler for the Rust programming language]' \
+'--rustdoc[Generate documentation for Rust projects]' \
+'--std[Standard library API documentation]' \
+'--test[Support code for rustc'\''s built in unit-test and micro-benchmarking framework]' \
+'--unstable-book[The Unstable Book]' \
+'--embedded-book[The Embedded Rust Book]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -508,57 +549,6 @@ _arguments "${_arguments_options[@]}" \
     ;;
 esac
 ;;
-(telemetry)
-_arguments "${_arguments_options[@]}" \
-'-h[Prints help information]' \
-'--help[Prints help information]' \
-'-V[Prints version information]' \
-'--version[Prints version information]' \
-":: :_rustup__telemetry_commands" \
-"*::: :->telemetry" \
-&& ret=0
-case $state in
-    (telemetry)
-        words=($line[1] "${words[@]}")
-        (( CURRENT += 1 ))
-        curcontext="${curcontext%:*:*}:rustup-telemetry-command-$line[1]:"
-        case $line[1] in
-            (enable)
-_arguments "${_arguments_options[@]}" \
-'-h[Prints help information]' \
-'--help[Prints help information]' \
-'-V[Prints version information]' \
-'--version[Prints version information]' \
-&& ret=0
-;;
-(disable)
-_arguments "${_arguments_options[@]}" \
-'-h[Prints help information]' \
-'--help[Prints help information]' \
-'-V[Prints version information]' \
-'--version[Prints version information]' \
-&& ret=0
-;;
-(analyze)
-_arguments "${_arguments_options[@]}" \
-'-h[Prints help information]' \
-'--help[Prints help information]' \
-'-V[Prints version information]' \
-'--version[Prints version information]' \
-&& ret=0
-;;
-(help)
-_arguments "${_arguments_options[@]}" \
-'-h[Prints help information]' \
-'--help[Prints help information]' \
-'-V[Prints version information]' \
-'--version[Prints version information]' \
-&& ret=0
-;;
-        esac
-    ;;
-esac
-;;
 (set)
 _arguments "${_arguments_options[@]}" \
 '-h[Prints help information]' \
@@ -602,6 +592,7 @@ _arguments "${_arguments_options[@]}" \
 '-V[Prints version information]' \
 '--version[Prints version information]' \
 '::shell:(zsh bash fish powershell elvish)' \
+'::command:(rustup cargo)' \
 && ret=0
 ;;
 (help)
@@ -620,7 +611,8 @@ esac
 (( $+functions[_rustup_commands] )) ||
 _rustup_commands() {
     local commands; commands=(
-        "show:Show the active and installed toolchains" \
+        "dump-testament:Dump information about the build" \
+"show:Show the active and installed toolchains" \
 "install:Update Rust toolchains" \
 "uninstall:Uninstall Rust toolchains" \
 "update:Update Rust toolchains and rustup" \
@@ -634,7 +626,6 @@ _rustup_commands() {
 "doc:Open the documentation for the current toolchain" \
 "man:View the man page for a given command" \
 "self:Modify the rustup installation" \
-"telemetry:rustup telemetry commands" \
 "set:Alter rustup settings" \
 "completions:Generate completion scripts for your shell" \
 "help:Prints this message or the help of the given subcommand(s)" \
@@ -683,13 +674,6 @@ _rustup__toolchain__add_commands() {
     )
     _describe -t commands 'rustup toolchain add commands' commands "$@"
 }
-(( $+functions[_rustup__telemetry__analyze_commands] )) ||
-_rustup__telemetry__analyze_commands() {
-    local commands; commands=(
-        
-    )
-    _describe -t commands 'rustup telemetry analyze commands' commands "$@"
-}
 (( $+functions[_rustup__completions_commands] )) ||
 _rustup__completions_commands() {
     local commands; commands=(
@@ -721,13 +705,6 @@ _rustup__set__default-host_commands() {
     )
     _describe -t commands 'rustup set default-host commands' commands "$@"
 }
-(( $+functions[_rustup__telemetry__disable_commands] )) ||
-_rustup__telemetry__disable_commands() {
-    local commands; commands=(
-        
-    )
-    _describe -t commands 'rustup telemetry disable commands' commands "$@"
-}
 (( $+functions[_rustup__doc_commands] )) ||
 _rustup__doc_commands() {
     local commands; commands=(
@@ -749,12 +726,12 @@ _rustup__docs_commands() {
     )
     _describe -t commands 'rustup docs commands' commands "$@"
 }
-(( $+functions[_rustup__telemetry__enable_commands] )) ||
-_rustup__telemetry__enable_commands() {
+(( $+functions[_rustup__dump-testament_commands] )) ||
+_rustup__dump-testament_commands() {
     local commands; commands=(
         
     )
-    _describe -t commands 'rustup telemetry enable commands' commands "$@"
+    _describe -t commands 'rustup dump-testament commands' commands "$@"
 }
 (( $+functions[_rustup__component__help_commands] )) ||
 _rustup__component__help_commands() {
@@ -804,13 +781,6 @@ _rustup__target__help_commands() {
         
     )
     _describe -t commands 'rustup target help commands' commands "$@"
-}
-(( $+functions[_rustup__telemetry__help_commands] )) ||
-_rustup__telemetry__help_commands() {
-    local commands; commands=(
-        
-    )
-    _describe -t commands 'rustup telemetry help commands' commands "$@"
 }
 (( $+functions[_rustup__toolchain__help_commands] )) ||
 _rustup__toolchain__help_commands() {
@@ -976,16 +946,6 @@ _rustup__target_commands() {
 "help:Prints this message or the help of the given subcommand(s)" \
     )
     _describe -t commands 'rustup target commands' commands "$@"
-}
-(( $+functions[_rustup__telemetry_commands] )) ||
-_rustup__telemetry_commands() {
-    local commands; commands=(
-        "enable:Enable rustup telemetry" \
-"disable:Disable rustup telemetry" \
-"analyze:Analyze stored telemetry" \
-"help:Prints this message or the help of the given subcommand(s)" \
-    )
-    _describe -t commands 'rustup telemetry commands' commands "$@"
 }
 (( $+functions[_rustup__toolchain_commands] )) ||
 _rustup__toolchain_commands() {
