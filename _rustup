@@ -15,8 +15,11 @@ _rustup() {
 
     local context curcontext="$curcontext" state line
     _arguments "${_arguments_options[@]}" \
+'--toolchain=[Toolchain name, such as '\''stable'\'', '\''nightly'\'', or '\''1.8.0'\''. For more information see `rustup help toolchain`]' \
 '-v[Enable verbose output]' \
 '--verbose[Enable verbose output]' \
+'(-v --verbose)-q[Disable progress output]' \
+'(-v --verbose)--quiet[Disable progress output]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -54,6 +57,22 @@ case $state in
         curcontext="${curcontext%:*:*}:rustup-show-command-$line[1]:"
         case $line[1] in
             (active-toolchain)
+_arguments "${_arguments_options[@]}" \
+'-h[Prints help information]' \
+'--help[Prints help information]' \
+'-V[Prints version information]' \
+'--version[Prints version information]' \
+&& ret=0
+;;
+(home)
+_arguments "${_arguments_options[@]}" \
+'-h[Prints help information]' \
+'--help[Prints help information]' \
+'-V[Prints version information]' \
+'--version[Prints version information]' \
+&& ret=0
+;;
+(profile)
 _arguments "${_arguments_options[@]}" \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
@@ -104,6 +123,14 @@ _arguments "${_arguments_options[@]}" \
 '::toolchain -- Toolchain name, such as 'stable', 'nightly', or '1.8.0'. For more information see `rustup help toolchain`:_files' \
 && ret=0
 ;;
+(check)
+_arguments "${_arguments_options[@]}" \
+'-h[Prints help information]' \
+'--help[Prints help information]' \
+'-V[Prints version information]' \
+'--version[Prints version information]' \
+&& ret=0
+;;
 (default)
 _arguments "${_arguments_options[@]}" \
 '-h[Prints help information]' \
@@ -130,6 +157,8 @@ case $state in
         case $line[1] in
             (list)
 _arguments "${_arguments_options[@]}" \
+'-v[Enable verbose output with toolchain information]' \
+'--verbose[Enable verbose output with toolchain information]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -138,7 +167,12 @@ _arguments "${_arguments_options[@]}" \
 ;;
 (update)
 _arguments "${_arguments_options[@]}" \
+'*-c+[Add specific components on installation]' \
+'*--component=[Add specific components on installation]' \
+'*-t+[Add specific targets on installation]' \
+'*--target=[Add specific targets on installation]' \
 '--no-self-update[Don'\''t perform self update when running the `rustup toolchain install` command]' \
+'--force[Force an update, even if some components are missing]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -148,7 +182,12 @@ _arguments "${_arguments_options[@]}" \
 ;;
 (add)
 _arguments "${_arguments_options[@]}" \
+'*-c+[Add specific components on installation]' \
+'*--component=[Add specific components on installation]' \
+'*-t+[Add specific targets on installation]' \
+'*--target=[Add specific targets on installation]' \
 '--no-self-update[Don'\''t perform self update when running the `rustup toolchain install` command]' \
+'--force[Force an update, even if some components are missing]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -158,7 +197,12 @@ _arguments "${_arguments_options[@]}" \
 ;;
 (install)
 _arguments "${_arguments_options[@]}" \
+'*-c+[Add specific components on installation]' \
+'*--component=[Add specific components on installation]' \
+'*-t+[Add specific targets on installation]' \
+'*--target=[Add specific targets on installation]' \
 '--no-self-update[Don'\''t perform self update when running the `rustup toolchain install` command]' \
+'--force[Force an update, even if some components are missing]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -238,7 +282,7 @@ _arguments "${_arguments_options[@]}" \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
 '--version[Prints version information]' \
-':target:_files' \
+':target -- List of targets to install; "all" installs all available targets:_files' \
 && ret=0
 ;;
 (add)
@@ -248,7 +292,7 @@ _arguments "${_arguments_options[@]}" \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
 '--version[Prints version information]' \
-':target:_files' \
+':target -- List of targets to install; "all" installs all available targets:_files' \
 && ret=0
 ;;
 (uninstall)
@@ -430,6 +474,7 @@ _arguments "${_arguments_options[@]}" \
 ;;
 (which)
 _arguments "${_arguments_options[@]}" \
+'--toolchain=[Toolchain name, such as '\''stable'\'', '\''nightly'\'', or '\''1.8.0'\''. For more information see `rustup help toolchain`]' \
 '-h[Prints help information]' \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
@@ -460,6 +505,7 @@ _arguments "${_arguments_options[@]}" \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
 '--version[Prints version information]' \
+'::topic -- Topic such as 'core', 'fn', 'usize', 'eprintln!', 'core::arch', 'alloc::format!', 'std::fs', 'std::fs::read_dir', 'std::io::Bytes', 'std::iter::Sum', 'std::io::error::Result' etc...:_files' \
 && ret=0
 ;;
 (doc)
@@ -485,6 +531,7 @@ _arguments "${_arguments_options[@]}" \
 '--help[Prints help information]' \
 '-V[Prints version information]' \
 '--version[Prints version information]' \
+'::topic -- Topic such as 'core', 'fn', 'usize', 'eprintln!', 'core::arch', 'alloc::format!', 'std::fs', 'std::fs::read_dir', 'std::io::Bytes', 'std::iter::Sum', 'std::io::error::Result' etc...:_files' \
 && ret=0
 ;;
 (man)
@@ -573,6 +620,15 @@ _arguments "${_arguments_options[@]}" \
 ':host_triple:_files' \
 && ret=0
 ;;
+(profile)
+_arguments "${_arguments_options[@]}" \
+'-h[Prints help information]' \
+'--help[Prints help information]' \
+'-V[Prints version information]' \
+'--version[Prints version information]' \
+':profile-name:(minimal default complete)' \
+&& ret=0
+;;
 (help)
 _arguments "${_arguments_options[@]}" \
 '-h[Prints help information]' \
@@ -612,10 +668,11 @@ esac
 _rustup_commands() {
     local commands; commands=(
         "dump-testament:Dump information about the build" \
-"show:Show the active and installed toolchains" \
+"show:Show the active and installed toolchains or profiles" \
 "install:Update Rust toolchains" \
 "uninstall:Uninstall Rust toolchains" \
 "update:Update Rust toolchains and rustup" \
+"check:Check for updates to Rust toolchains" \
 "default:Set the default toolchain" \
 "toolchain:Modify or query the installed toolchains" \
 "target:Modify a toolchain's supported targets" \
@@ -627,7 +684,7 @@ _rustup_commands() {
 "man:View the man page for a given command" \
 "self:Modify the rustup installation" \
 "set:Alter rustup settings" \
-"completions:Generate completion scripts for your shell" \
+"completions:Generate tab-completion scripts for your shell" \
 "help:Prints this message or the help of the given subcommand(s)" \
     )
     _describe -t commands 'rustup commands' commands "$@"
@@ -673,6 +730,13 @@ _rustup__toolchain__add_commands() {
         
     )
     _describe -t commands 'rustup toolchain add commands' commands "$@"
+}
+(( $+functions[_rustup__check_commands] )) ||
+_rustup__check_commands() {
+    local commands; commands=(
+        
+    )
+    _describe -t commands 'rustup check commands' commands "$@"
 }
 (( $+functions[_rustup__completions_commands] )) ||
 _rustup__completions_commands() {
@@ -789,6 +853,13 @@ _rustup__toolchain__help_commands() {
     )
     _describe -t commands 'rustup toolchain help commands' commands "$@"
 }
+(( $+functions[_rustup__show__home_commands] )) ||
+_rustup__show__home_commands() {
+    local commands; commands=(
+        
+    )
+    _describe -t commands 'rustup show home commands' commands "$@"
+}
 (( $+functions[_rustup__install_commands] )) ||
 _rustup__install_commands() {
     local commands; commands=(
@@ -862,6 +933,20 @@ _rustup__override_commands() {
     )
     _describe -t commands 'rustup override commands' commands "$@"
 }
+(( $+functions[_rustup__set__profile_commands] )) ||
+_rustup__set__profile_commands() {
+    local commands; commands=(
+        
+    )
+    _describe -t commands 'rustup set profile commands' commands "$@"
+}
+(( $+functions[_rustup__show__profile_commands] )) ||
+_rustup__show__profile_commands() {
+    local commands; commands=(
+        
+    )
+    _describe -t commands 'rustup show profile commands' commands "$@"
+}
 (( $+functions[_rustup__component__remove_commands] )) ||
 _rustup__component__remove_commands() {
     local commands; commands=(
@@ -925,6 +1010,7 @@ _rustup__override__set_commands() {
 _rustup__set_commands() {
     local commands; commands=(
         "default-host:The triple used to identify toolchains when not specified" \
+"profile:The default components installed" \
 "help:Prints this message or the help of the given subcommand(s)" \
     )
     _describe -t commands 'rustup set commands' commands "$@"
@@ -933,6 +1019,8 @@ _rustup__set_commands() {
 _rustup__show_commands() {
     local commands; commands=(
         "active-toolchain:Show the active toolchain" \
+"home:Display the computed value of RUSTUP_HOME" \
+"profile:Show the current profile" \
 "help:Prints this message or the help of the given subcommand(s)" \
     )
     _describe -t commands 'rustup show commands' commands "$@"
